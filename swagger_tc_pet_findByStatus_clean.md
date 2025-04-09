@@ -1,18 +1,16 @@
 
-# 🧪 API Test Cases – Swagger Petstore
+# **API Test Cases – Swagger Petstore**
 
-## Table of Contents
-- [USER](#user)
-- [PET](#pet)
-- [STORE](#store)
+## **Table of Contents**
+- [**USER**](#user)
+- [**PET**](#pet)
+- [**STORE**](#store)
 
 ---
 
+# **API Test Case**
 
-
-# ✅ API Test Case 
-
-## 🐾 PET 
+## **PET**
 
 **Description:** Get a list of pets filtered by status (`available`, `pending`, `sold`)  
 **Method:** GET  
@@ -22,22 +20,23 @@
 
 ---
 
-## 🔧 Request Parameters
+## **Request Parameters**
 
-| Type       | Key         | Value            | Description                     |
-|------------|-------------|------------------|---------------------------------|
-| Query      | status      | available        | Pet is available for adoption   |
-| Query      | status      | pending          | Pending approval or processing  |
-| Query      | status      | sold             | Already sold                    |
+| **Type**  | **Key**    | **Value**     | **Description**                    |
+|----------|------------|---------------|------------------------------------|
+| Query    | status     | available     | Pet is available for adoption      |
+| Query    | status     | pending       | Pending approval or processing     |
+| Query    | status     | sold          | Already sold                       |
 
 ---
 
-## ✅ Expected Result
+## **Expected Result**
 
 - **Status code:** `200`
 - **Content-Type:** `application/json`
 - **Description:** Array of pet objects with the requested status
 - **Sample object:**
+
 ```json
 [
   {
@@ -63,9 +62,9 @@
 
 ---
 
-## 📥 Actual Result
+## **Actual Result**
 
-### 🔹 Subtest 1 — `status=available`
+### **Subtest 1 — `status=available`**
 - **Status code:** 200  
 - **Response contains:** array of pet objects with `status = "available"`  
 - **Screenshot:** `screenshots/TC_001_200_available_test.png`  
@@ -73,7 +72,7 @@
 
 ---
 
-### 🔹 Subtest 2 — `status=pending`
+### **Subtest 2 — `status=pending`**
 - **Status code:** 200  
 - **Response contains:** array of pet objects with `status = "pending"`  
 - **Screenshot:** `screenshots/TC_001_200_pending_test.png`  
@@ -81,7 +80,7 @@
 
 ---
 
-### 🔹 Subtest 3 — `status=sold`
+### **Subtest 3 — `status=sold`**
 - **Status code:** 200  
 - **Response contains:** array of pet objects with `status = "sold"`  
 - **Screenshot:** `screenshots/TC_001_200_sold_test.png`  
@@ -89,75 +88,68 @@
 
 ---
 
-## 🟢 Test Status
-
+## **Test Status**
 - ✅ Passed: Yes  
 - 🧩 Coverage: All 3 status values tested (available, pending, sold)
 
 ---
-❗ Negative Testing
-🔻 Subtest 4 — status=true (Invalid Value)
-Expected status: 400 Bad Request
 
-Actual status: 200 OK ❌
+## **Negative Testing**
 
-Body: []
+### **Subtest 4 — `status=true` (Invalid Value)**
+- **Expected status:** 400 Bad Request  
+- **Actual status:** 200 OK ❌  
+- **Body:** []  
+- **Screenshot:** `screenshots/invalid_status_true.png`  
+- **Status:** ❌ Failed
 
-Screenshot: screenshots/invalid_status_true.png
+### **Subtest 5 — `status=123` (Invalid Value - number)**
+- **Expected status:** 400 Bad Request  
+- **Actual status:** 200 OK ❌  
+- **Body:** []  
+- **Screenshot:** `screenshots/invalid_status_123.png`  
+- **Status:** ❌ Failed
 
-Status: ❌ Failed
+### **Subtest 6 — no status parameter**
+- **Expected status:** 400 Bad Request  
+- **Actual status:** 200 OK ❌  
+- **Body:** []  
+- **Screenshot:** `screenshots/invalid_status_empty.png`  
+- **Status:** ❌ Failed
 
-🔻 Subtest 5 — status=123 (Invalid Value - number)
-Expected status: 400 Bad Request
+---
 
-Actual status: 200 OK ❌
+## **Final Test Status Summary**
+- ✅ Passed: 3/6  
+- ❌ Failed: 3/6  
+- 🧩 Coverage: Checked all valid values and edge cases
 
-Body: []
+### **Bug:**
+API returns 200 OK even for invalid status values and empty parameter — does not match documentation
 
-Screenshot: screenshots/invalid_status_123.png
+---
 
-Status: ❌ Failed
-
-🔻 Subtest 6 — no status parameter
-Expected status: 400 Bad Request
-
-Actual status: 200 OK ❌
-
-Body: []
-
-Screenshot: screenshots/invalid_status_empty.png
-
-Status: ❌ Failed
-
-🟢 Final Test Status Summary
-✅ Passed: 3/6
-
-❌ Failed: 3/6
-
-🧩 Coverage: Checked all valid values and edge cases
-
-📌 Bug: API returns 200 OK even for invalid status values and empty parameter — does not match documentation
-## 📝 Comments
-
+## **Comments**
 Screenshots saved in the `/screenshots/` folder.
+## ✅ API Test Case
 
+## PET – Add a new pet to the store
 
-✅ API Test Case
-
-## 🐾 PET – Add a new pet to the store
-
-**Description:** Add a new pet using the POST method
+**Description:** Add a new pet using the POST method.  
 **Method:** POST  
-**URL:** `{{base_URL}}/petRequest`
-**Request Title:** Add pet to store  
+**URL:** `{{base_URL}}/pet`  
+**Request Title:** Add a new pet to the store  
 **ID:** TC_002
 
-🔧 Request Body
+---
 
-Content-Type: application/json
-Required: Yes ( * ) means required in Swagger
+## Request Body
 
-✍️ Example Request Body
+**Content-Type:** `application/json`  
+**Required:** Yes ( * ) means required in Swagger
+
+### Example Request Body
+```json
 {
   "id": 0,
   "category": {
@@ -176,21 +168,44 @@ Required: Yes ( * ) means required in Swagger
   ],
   "status": "available"
 }
+```
 
-✅ Expected Result
+---
 
-Status code: 200 (Success)
+## ✅ Expected Result
 
-Description: Pet is created and returned in the response
+- **Status code:** 200 (Success)
+- **Description:** Pet is created and returned in the response
 
-🗕 Actual Result
+---
 
-🔹 Subtest 1 — Valid request body
+## Actual Result
 
-Status code: 200 ✅
+### 🔹 Subtest 1 — Valid request body
+- **Status code:** 200 ✅
+- **Response:** Pet created with auto-generated ID (e.g., `9223372036854750123`)
+- **Screenshot:** `screenshots/TC_002_200_create_pet.png`
+- **Status:** ✅ Passed
 
-Response: Pet created with auto-generated ID (e.g., 9223372036854776000)
+---
 
-Screenshot: screenshots/TC_002_200_create_pet.png
+## Additional Test Scenarios (to be implemented)
 
-Status: ✅ Passed
+- [ ] Invalid body (missing `name`, `photoUrls`, or `status`) → expect 405 or validation error
+- [ ] Empty body → expect error
+- [ ] Invalid data types (`id` as string, etc.) → expect validation error
+
+---
+
+## Bug Tracking
+
+If any test returns unexpected results, document it as:
+
+### 🔻 Bug Example
+- **Title:** API allows creating pet with empty `name`
+- **Step to Reproduce:** Send valid body but leave `name` field empty or null
+- **Expected:** 400 Bad Request
+- **Actual:** 200 OK
+- **Severity:** Medium
+- **Screenshot:** `screenshots/bug_add_pet_empty_name.png`
+- **Status:**  Confirmed
